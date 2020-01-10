@@ -1,0 +1,54 @@
+{
+  "users" : [
+    {
+      "username" : "admin",
+      "email" : "admin@admin.com",
+      "fullname": "admin admin",
+      "address" : "komputer",
+      "phone_number": 1234567890,
+      "work_start_time" : "20-12-2019",
+      "activate": true,
+      "password": "admin",
+      "ca": {
+        "name" : "root",
+        "root_access" : true,
+        "add_user" : true,
+        "delete_user" : true,
+        "edit_user" : true,
+        "add_job" : true,
+        "delete_job" : true,
+        "update_job" : true,
+        "show_job" : true,
+        "show_user" : true,
+        "print_job" : true,
+        "check_job" : true,
+        "service_job":true
+      }
+    },
+    {
+      "username" : "test",
+      "email" : "test@admin.com",
+      "fullname": "test",
+      "address" : "test",
+      "phone_number": 232,
+      "work_start_time" : "20-12-2019",
+      "activate": true,
+      "password": "test",
+      "ca" : {
+        "name" : "administrasi",
+        "root_access" : false,
+        "add_user" : true,
+        "delete_user" : true,
+        "edit_user" : true,
+        "add_job" : true,
+        "delete_job" : true,
+        "update_job" : true,
+        "show_job" : true,
+        "show_user" : true,
+        "print_job" : true,
+        "check_job" : true,
+        "service_job":true
+      }
+    }
+  ]
+}

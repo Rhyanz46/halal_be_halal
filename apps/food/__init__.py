@@ -1,0 +1,24 @@
+from apps.food.interfaces import bp
+from apps.food.interfaces import (
+    Foods,
+    FoodCategory,
+    FoodImages,
+    FoodDetail,
+    FoodCategoryDetail
+)
+
+
+class FoodModule:
+    def __init__(self):
+        from apps.food.models.images import FoodImage
+        from apps.food.models.history import FoodHistory
+        from apps.food.models import Food
+
+    @staticmethod
+    def init_app(app):
+        bp.add_url_rule('', view_func=Foods.as_view('food'))
+        bp.add_url_rule('/<int:food_id>/images', view_func=FoodImages.as_view('food_images'))
+        bp.add_url_rule('/<int:food_id>', view_func=FoodDetail.as_view('food_detail'))
+        bp.add_url_rule('/category', view_func=FoodCategory.as_view('food_category'))
+        bp.add_url_rule('/category/<string:name>', view_func=FoodCategory.as_view('food_category_detail'))
+        app.register_blueprint(bp)
