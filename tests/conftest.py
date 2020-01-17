@@ -6,7 +6,7 @@ import json
 from app import create_app
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def app():
     db_fd, db_path = tempfile.mkstemp()
     # from sys import breakpointhook

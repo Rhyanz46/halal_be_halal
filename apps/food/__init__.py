@@ -16,9 +16,9 @@ class FoodModule:
 
     @staticmethod
     def init_app(app):
-        bp.add_url_rule('', view_func=Foods.as_view('food'))
-        bp.add_url_rule('/<int:food_id>/images', view_func=FoodImages.as_view('food_images'))
-        bp.add_url_rule('/<int:food_id>', view_func=FoodDetail.as_view('food_detail'))
-        bp.add_url_rule('/category', view_func=FoodCategory.as_view('food_category'))
-        bp.add_url_rule('/category/<string:name>', view_func=FoodCategory.as_view('food_category_detail'))
+        # bp.add_url_rule('', view_func=Foods.as_view('wawaw'))
+        # bp.add_url_rule(endpoint='/<int:food_id>/images', view_func=FoodImages.as_view('food_images'))
+        # bp.add_url_rule('/<int:food_id>', view_func=FoodDetail.as_view('food_detail'))
+        # bp.add_url_rule('/category', view_func=FoodCategory.as_view('food_category'))
+        # bp.add_url_rule('/category/<string:name>', view_func=FoodCategory.as_view('food_category_detail'))
         app.register_blueprint(bp)

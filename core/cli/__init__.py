@@ -18,7 +18,8 @@ from core.config import (
 db = mysql.connector.connect(
     host=DATABASE_HOST,
     user=DATABASE_USER,
-    passwd=DATABASE_PASSWORD
+    passwd=DATABASE_PASSWORD,
+    port=3307
 )
 
 mysql_cursor = db.cursor()
@@ -49,11 +50,17 @@ def reset():
         click.echo('Database "{}" is not exist, so "delete action" is not running'.format(DATABASE_NAME))
 
 
+@click.command('create-db')
+@with_appcontext
+def create_db():
+    mysql_cursor.execute("CREATE DATABASE {}".format(DATABASE_NAME))
+
+
 @click.command('new')
 @with_appcontext
 def new_command():
     os.system("flask delete-db")
-    mysql_cursor.execute("CREATE DATABASE {}".format(DATABASE_NAME))
+    os.system("flask create-db")
     os.system("flask db init")
     os.system("flask db migrate")
     os.system("flask db upgrade")
@@ -116,6 +123,7 @@ class CLI:
     @staticmethod
     def init_app(app):
         app.cli.add_command(reset)
+        app.cli.add_command(create_db)
         app.cli.add_command(add_seek)
         app.cli.add_command(new_command)
         app.cli.add_command(testing)

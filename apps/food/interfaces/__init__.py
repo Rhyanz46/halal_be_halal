@@ -14,7 +14,7 @@ from apps.food.services import (
     images_of_food
 )
 
-bp = Blueprint('food', __name__, url_prefix='/food')
+bp = Blueprint('fooddawed', __name__, url_prefix='/fodwaeod')
 
 
 class Foods(MethodView):
