@@ -12,6 +12,11 @@ class FoodModule:
     def __init__(self):
         from apps.food.models.images import FoodImage
         from apps.food.models.history import FoodHistory
+        from apps.food.models.certificate import Certificate
+        from apps.food.models.certificate_giver import CertificateGiver
+        from apps.food.models.theme import FoodTheme
+        from apps.food.models.tags import FoodTag
+        from apps.food.models.feedback import FoodFeedBack
         from apps.food.models import Food
 
     @staticmethod

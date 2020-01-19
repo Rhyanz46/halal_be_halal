@@ -24,8 +24,7 @@ def state() -> State:
 def test_login_validate_input(auth, username, password, code) -> None:
     response = auth.login(username, password)
     assert code == response.status_code
-#
-#
+
 # def test_login(client, auth, state: State) -> None:
 #     assert client.get('/user/auth').status_code == 400
 #     response = auth.login()

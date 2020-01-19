@@ -21,11 +21,12 @@ class Food(db.Model):
     discount = db.Column(db.Float, default=0.0)
     stock = db.Column(db.Integer, nullable=False)
 
-    seller = db.Column(db.Integer, db.ForeignKey('store.id'))
-
+    store_id = db.Column(db.Integer, db.ForeignKey('store.id'))
     category_id = db.Column(db.Integer, db.ForeignKey("food_category.id"))
+    certificate_id = db.Column(db.Integer, db.ForeignKey("certificate.id"))
 
     buyers = db.relationship('User', secondary=user_foods, lazy='subquery', backref='food_be_bought')
+    feed_backs = db.relationship('FoodFeedBack', backref='food', lazy=True)
     history = db.relationship('FoodHistory', backref='food')
 
     time_created = db.Column(db.DateTime, default=datetime.now())
@@ -66,3 +67,56 @@ class Food(db.Model):
             }
             data.update({"image": all_img})
         return data
+
+    # data = {
+    #   "id": 12345,
+    #   "name": "nama makanan",
+    #   "desc": "deskripsi panjang",
+    #   "shortDesc": "Deskripsi pendek",
+    #   "images": [
+    #     ""
+    #   ],
+    #   "slug": "",
+    #   "prices": 123456,
+    #   "currency": "IDR",
+    #   "denote": "Rp",
+    #   "packages": [
+    #     123,
+    #     123
+    #   ],
+    #   "discount": 0,
+    #   "seller": {
+    #     "id": 12345,
+    #     "name": "nama seller",
+    #     "image": "seller image",
+    #     "address": "address"
+    #   },
+    #   "attribute": {
+    #     "rating": 5,
+    #     "popularity": 9,
+    #     "like": 345,
+    #     "view": 12345,
+    #     "sold": 1236,
+    #     "tags": [
+    #       "makanan"
+    #     ],
+    #     "theme": [
+    #       "lunch",
+    #       "hot",
+    #       "summer",
+    #       "warm"
+    #     ]
+    #   },
+    #   "certificate": {
+    #     "issuer": "MUI",
+    #     "date": "dd/mm/yy",
+    #     "number": "nomer sertifikat"
+    #   },
+    #   "feedbacks": [
+    #     {
+    #       "user": "Fulan",
+    #       "rating": 5,
+    #       "comment": "enak cuy"
+    #     }
+    #   ]
+    # }

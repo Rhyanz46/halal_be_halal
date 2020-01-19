@@ -5,7 +5,7 @@ from core import method_is, parser
 
 from ..services import register, login, update, show_user_detail, user_list, delete_user
 
-bp = Blueprint('user', __name__, url_prefix='/user')
+bp = Blueprint('feedback', __name__, url_prefix='/feedback')
 
 
 @bp.route('', methods=['GET', 'POST'])

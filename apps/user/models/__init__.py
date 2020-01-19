@@ -13,6 +13,7 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
 
     user_detail = db.relationship('UserDetail', uselist=False, backref='user')
+    food_feed_backs = db.relationship('FoodFeedBack', backref='user', lazy=True)
     created_time = db.Column(db.DateTime, default=datetime.now())
 
     def __serialize__(self, detail=False):
