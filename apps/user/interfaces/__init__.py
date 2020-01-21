@@ -4,8 +4,9 @@ from flask import Blueprint, request
 from core import method_is, parser
 
 from ..services import register, login, update, show_user_detail, user_list, delete_user
+from apps.user.services.firebase import firebase_auth_token
 
-bp = Blueprint('feedback', __name__, url_prefix='/feedback')
+bp = Blueprint('user', __name__, url_prefix='/user')
 
 
 @bp.route('', methods=['GET', 'POST'])
@@ -34,6 +35,14 @@ def auth():
     if method_is('POST'):
         return login(data.get_parsed())
     return {"message": "waw"}, 200
+
+
+@bp.route('/auth/firebase-token', methods=['POST'])
+def firebase_token_verify():
+    data = parser.ValueChecker(request.json)
+    data.parse('token', field_type=str, length=1000)
+    data = data.get_parsed()
+    return firebase_auth_token(data['token'])
 
 
 @bp.route('/detail/<string:username>', methods=['PUT', 'GET', 'DELETE'])
