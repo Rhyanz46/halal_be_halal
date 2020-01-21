@@ -16,7 +16,7 @@ class ValueChecker:
         if isinstance(None, self.type):
             if not nullable:
                 msg = {
-                    "message": 'you have to set a data'
+                    "message": 'you have to set a body data'
                 }
                 abort(result(msg, 400))
             return self.__parsed.update({field: None})
