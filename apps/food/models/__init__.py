@@ -20,6 +20,8 @@ class Food(db.Model):
     price = db.Column(db.Float, default=0.0)
     discount = db.Column(db.Float, default=0.0)
     stock = db.Column(db.Integer, nullable=False)
+    slug = db.Column(db.String(255), unique=True)
+    sold = db.Column(db.BigInteger, default=0)
 
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'))
     category_id = db.Column(db.Integer, db.ForeignKey("food_category.id"))

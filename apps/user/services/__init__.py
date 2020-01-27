@@ -43,33 +43,29 @@ def store_data_user(data):
         fullname=data['fullname'],
         address=data['address'],
         phone_number=data['phone_number'],
-        work_start_time=data['work_start_time'],
-        activate=data['activate'],
     )
 
     user = User(
         username=data['username'],
         email=data['email'],
         password=data['password'],
-        user_detail=detail,
-        category_access_id=data['category_access_id']
+        user_detail=detail
     )
-    try:
-        user.commit()
-        return user
-    except:
-        return None
+    # try:
+    user.commit()
+    return user
+    # except:
+    #     return None
 
 
-@jwt_required
 def register(data):
     username_exist = User.query.filter_by(username=data['username']).first()
     email_exist = User.query.filter_by(email=data['email']).first()
     phone_exist = UserDetail.query.filter_by(phone_number=data['phone_number']).first()
 
-    user = User.query.filter_by(id=get_jwt_identity()).first()
-    if not user:
-        return {"message": "user authentication is wrong"}, 400
+    # user = User.query.filter_by(id=get_jwt_identity()).first()
+    # if not user:
+    #     return {"message": "user authentication is wrong"}, 400
 
     # ca = CategoryAccess.query.filter_by(id=user.category_access_id).first()
     # if not ca:
@@ -89,20 +85,21 @@ def register(data):
     if not saved:
         return {'error': 'failed to save data'},
     token = create_access_token(identity=saved.id, expires_delta=expires)
-    return {'token': token}, 201
+    return {'token': token}
 
 
 def login(data):
     username = data['username']
     password = data['password']
+    print(data)
     user = User.query.filter(User.username == username, User.password == password).first()
     if user:
         # ca = CategoryAccess.query.filter_by(id=user.category_access_id).first()
-        ca_name = None
+        # ca_name = None
         # if ca:
         # ca_name = ca.name
         token = create_access_token(identity=user.id, expires_delta=expires)
-        return {'token': token, 'ca': ca_name}, 200
+        return {'token': token}, 200
     return {'data': 'username atau password salah'}, 403
 
 

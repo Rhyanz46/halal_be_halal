@@ -1,0 +1,26 @@
+{
+  "id": 12345,
+  "username": "username",
+  "email": "",
+  "phone": "",
+  "rating": 4.6,
+  "image" : "http://ddd",
+  "addresses": [
+    {
+      "name": "Rumah",
+      "latitude": 8.02364773482,
+      "longitude": -9.989738478237,
+      "address": "text address",
+      "note": "Kamar no 2"
+    }
+  ],
+  "fullname": "Full name",
+  "social": [
+    {
+      "provider": "Facebook",
+      "id": "UID Facebook",
+      "image" : "http://ddd"
+    }
+  ]
+}
+

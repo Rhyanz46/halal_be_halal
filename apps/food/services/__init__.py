@@ -45,6 +45,8 @@ def create_food(data):
     # if not ca.add_food:
     #     return {"message": "you not have permission"}, 403
 
+    food.commit()
+
     try:
         food.commit()
     except:

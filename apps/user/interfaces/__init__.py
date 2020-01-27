@@ -40,7 +40,7 @@ def auth():
 @bp.route('/auth/firebase-token', methods=['POST'])
 def firebase_token_verify():
     data = parser.ValueChecker(request.json)
-    data.parse('token', field_type=str, length=1000)
+    data.parse('token', field_type=str, length=3000)
     data = data.get_parsed()
     return firebase_auth_token(data['token'])
 

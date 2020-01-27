@@ -1,0 +1,52 @@
+{
+  "id": 12345,
+  "name": "nama makanan",
+  "desc": "deskripsi panjang",
+  "shortDesc": "Deskripsi pendek",
+  "images": [
+    ""
+  ],
+  "slug": "",
+  "prices": 123456,
+  "currency": "IDR",
+  "denote": "Rp",
+  "packages": [
+    123,
+    123
+  ],
+  "discount": 0,
+  "seller": {
+    "id": 12345,
+    "name": "nama seller",
+    "image": "seller image",
+    "address": "address"
+  },
+  "attribute": {
+    "rating": 5,
+    "popularity": 9,
+    "like": 345,
+    "view": 12345,
+    "sold": 1236,
+    "tags": [
+      "makanan"
+    ],
+    "theme": [
+      "lunch",
+      "hot",
+      "summer",
+      "warm"
+    ]
+  },
+  "certificate": {
+    "issuer": "MUI",
+    "date": "dd/mm/yy",
+    "number": "nomer sertifikat"
+  },
+  "feedbacks": [
+    {
+      "user": "Fulan",
+      "rating": 5,
+      "comment": "enak cuy"
+    }
+  ]
+}

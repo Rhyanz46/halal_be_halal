@@ -9,7 +9,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # category_access_id = db.Column(db.Integer, db.ForeignKey("category_access.id"))
     username = db.Column(db.String(90), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(255), nullable=False)
 
     user_detail = db.relationship('UserDetail', uselist=False, backref='user')

@@ -1,0 +1,22 @@
+{
+  "id": "12345asd312",
+  "orders": [
+    {
+      "item": "{food object}",
+      "count": 2,
+      "note": "note for item"
+    },
+    {}
+  ],
+  "payment": "COD",
+  "total": 124566,
+  "paid": false,
+  "state": "In progress",
+  "driver": {
+    "id": 12345,
+    "name": "abdul",
+    "image": "http:///dadasdasd.jpg",
+    "phone": "097983478238",
+    "rating": 8
+  }
+}

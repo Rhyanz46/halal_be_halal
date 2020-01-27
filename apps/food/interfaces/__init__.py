@@ -1,5 +1,5 @@
 from datetime import date
-from flask import Blueprint, request
+from flask import request
 from core import parser
 from flask.views import MethodView
 
@@ -13,8 +13,6 @@ from apps.food.services import (
     upload_food_image,
     images_of_food
 )
-
-bp = Blueprint('fooddawed', __name__, url_prefix='/fodwaeod')
 
 
 class Foods(MethodView):
@@ -85,7 +83,7 @@ class FoodCategoryDetail(MethodView):
     def delete(name):
         return food_category(name, mode='delete')
 
-
-@bp.route('/<int:job_id>/users', methods=['PUT', 'GET', 'DELETE'])
-def food_users(job_id):
-    return users_of_food(job_id)
+#
+# @bp.route('/<int:job_id>/users', methods=['PUT', 'GET', 'DELETE'])
+# def food_users(job_id):
+#     return users_of_food(job_id)
