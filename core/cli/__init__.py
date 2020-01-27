@@ -12,14 +12,15 @@ from core.config import (
     DATABASE_NAME,
     DATABASE_HOST,
     DATABASE_PASSWORD,
-    DATABASE_USER
+    DATABASE_USER,
+    DATABASE_PORT
 )
 
 db = mysql.connector.connect(
     host=DATABASE_HOST,
     user=DATABASE_USER,
     passwd=DATABASE_PASSWORD,
-    port=3307
+    port=DATABASE_PORT
 )
 
 mysql_cursor = db.cursor()
