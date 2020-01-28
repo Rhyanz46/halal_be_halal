@@ -34,7 +34,7 @@ class UserDetail(db.Model):
             "id": user.id,
             "user_id": user.user_id,
             "fullname": user.fullname,
-            "address": user.address,
+            # "address": user.address,
             "phone_number": user.phone_number,
             "work_start_time": user.work_start_time,
             "activate": user.activate,
