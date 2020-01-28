@@ -92,7 +92,7 @@ class Food(db.Model):
                 "id": self.store.id,
                 "name": self.store.name,
                 "image": self.store.img,
-                "address": self.store.address,
+                # "address": self.store.address,
             },
             "attribute": {
                 "like": len(self.likes),
