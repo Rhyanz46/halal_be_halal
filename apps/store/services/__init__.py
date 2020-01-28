@@ -17,7 +17,6 @@ def create_store(data):
         lang=data['lang'],
         owner=get_jwt_identity()
     )
-
     try:
         store.commit()
     except:
@@ -30,3 +29,4 @@ def my_store():
     store = Store.query.filter_by(owner=get_jwt_identity()).first()
     if store:
         return store.__serialize__()
+    return {"message": "you have no store"}, 400

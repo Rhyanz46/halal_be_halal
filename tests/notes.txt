@@ -1,0 +1,6 @@
+belum :
+- image pada store
+- tracker dinamis
+- enpoint popular dan terlaris
+- - popular berdasarkan jumlah user yg beli
+- - terlaris berdasarkan jumlah pembelian barang

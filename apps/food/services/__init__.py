@@ -29,10 +29,10 @@ def create_food(data):
         description=data['description'],
         price=data['price'],
         discount=data['discount'],
-        seller=get_jwt_identity(),
         category_id=data['category_id'],
         stock=data['stock']
     )
+    store.foods.append(food)
 
     user = User.query.filter_by(id=get_jwt_identity()).first()
     if not user:
@@ -46,6 +46,7 @@ def create_food(data):
     #     return {"message": "you not have permission"}, 403
 
     food.commit()
+    store.commit()
 
     try:
         food.commit()
@@ -75,6 +76,9 @@ def images_of_food(food_id):
 def upload_food_image(food_id, data):
     folder = current_app.config['APPLICATION_ROOT'] + '/' + STATIC_FOLDER + '/'
     food = Food.query.filter_by(id=food_id).first()
+    store = Store.query.filter_by(owner=get_jwt_identity()).first()
+    if not store:
+        return {"error": "you have to create store first"}, 403
     if not food:
         return {"error": "food is not found"}, 400
     if len(food.images) >= 5:
@@ -113,6 +117,9 @@ def my_food_list(page):
         page = int(page)
     except:
         return {"error": "parameter page must be integer"}, 400
+    store = Store.query.filter_by(owner=get_jwt_identity()).first()
+    if not store:
+        return {"error": "you have to create store first"}, 403
 
     user = User.query.filter_by(id=get_jwt_identity()).first()
     foods = Food.query. \
@@ -200,6 +207,9 @@ def detail_food(food_id, data=None, mode=None):
 @jwt_required
 def food_category(name, mode='create'):
     ca = FoodCategory.query.filter_by(name=name).first()
+    store = Store.query.filter_by(owner=get_jwt_identity()).first()
+    if not store:
+        return {"error": "you have to create store first"}, 403
     if mode == 'delete':
         if not ca:
             return {"error": "kategori {} tidak ada".format(name)}, 400

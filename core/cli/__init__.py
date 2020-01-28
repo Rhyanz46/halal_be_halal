@@ -117,7 +117,7 @@ def add_seek():
 @with_appcontext
 def testing():
     from os import system
-    system("coverage run -m pytest -vs")
+    system("coverage run -m pytest -v")
 
 
 class CLI:

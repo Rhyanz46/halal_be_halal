@@ -10,7 +10,7 @@
   "prices": 123456,
   "currency": "IDR",
   "denote": "Rp",
-  "packages": [
+  "packages [belum konek]": [
     123,
     123
   ],
@@ -23,19 +23,24 @@
   },
   "attribute": {
     "rating": 5,
-    "popularity": 9,
+    "popularity [ini di hapus]": 9,
     "like": 345,
     "view": 12345,
     "sold": 1236,
-    "tags [ini belum konek]": [
+    "tags": [
       "makanan"
     ],
-    "theme [ini belum konek]": [
+    "theme": [
       "lunch",
       "hot",
       "summer",
       "warm"
     ]
+  },
+  "certificate": {
+    "issuer": "MUI",
+    "date": "dd/mm/yy",
+    "number": "nomer sertifikat"
   },
   "feedbacks": [
     {

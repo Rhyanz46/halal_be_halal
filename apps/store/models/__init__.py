@@ -7,9 +7,11 @@ class Store(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(90), unique=True)
     description = db.Column(db.TEXT)
+    address = db.Column(db.TEXT)
+    img = db.Column(db.TEXT)
     lat = db.Column(db.Float, default=0.0)
     lang = db.Column(db.Float, default=0.0)
-    store = db.relationship('Food', backref='store')
+    foods = db.relationship('Food', backref='store')
 
     owner = db.Column(db.Integer, db.ForeignKey('user.id'))
     time_created = db.Column(db.DateTime, default=datetime.now())
