@@ -10,7 +10,7 @@
   "prices": 123456,
   "currency": "IDR",
   "denote": "Rp",
-  "packages [belum konek]": [
+  "packages": [
     123,
     123
   ],

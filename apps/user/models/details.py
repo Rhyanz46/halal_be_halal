@@ -7,12 +7,12 @@ class UserDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     fullname = db.Column(db.String(90))
-    address = db.Column(db.TEXT)
     phone_number = db.Column(db.BigInteger, unique=True)
     work_start_time = db.Column(db.Date, default=datetime.now())
     activate = db.Column(db.Boolean, default=True)
     created_time = db.Column(db.DateTime, default=datetime.now())
 
+    addresses = db.relationship('Addresses', backref='user_detail')
     # job_history = db.relationship('FoodHistory', backref='user_detail')
 
     def __serialize__(self, id=None):

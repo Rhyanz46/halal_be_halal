@@ -95,7 +95,6 @@ def add_seek():
         # )
         detail = UserDetail(
             fullname=user['fullname'],
-            address=user['address'],
             phone_number=user['phone_number'],
             work_start_time=datetime.strptime(user['work_start_time'], "%d-%m-%Y").date(),
             activate=user['activate']

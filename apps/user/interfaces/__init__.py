@@ -17,7 +17,6 @@ def index():
     data.parse('username', field_type=str, length=30)
     data.parse('email', field_type=str, length=30)
     data.parse('fullname', field_type=str, length=30)
-    data.parse('address', field_type=str, length=30)
     data.parse('phone_number', field_type=int, length=30)
     data.parse('work_start_time', field_type=date, length=30)
     data.parse('activate', field_type=bool, length=30)

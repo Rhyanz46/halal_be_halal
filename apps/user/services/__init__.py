@@ -41,7 +41,6 @@ def full_edit_user(data, user_target):
 def store_data_user(data):
     detail = UserDetail(
         fullname=data['fullname'],
-        address=data['address'],
         phone_number=data['phone_number'],
     )
 
