@@ -90,7 +90,6 @@ def register(data):
 def login(data):
     username = data['username']
     password = data['password']
-    print(data)
     user = User.query.filter(User.username == username, User.password == password).first()
     if user:
         # ca = CategoryAccess.query.filter_by(id=user.category_access_id).first()

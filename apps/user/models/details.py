@@ -10,9 +10,12 @@ class UserDetail(db.Model):
     phone_number = db.Column(db.BigInteger, unique=True)
     work_start_time = db.Column(db.Date, default=datetime.now())
     activate = db.Column(db.Boolean, default=True)
+    ratting = db.Column(db.BigInteger)
+    image = db.Column(db.Text)
     created_time = db.Column(db.DateTime, default=datetime.now())
 
-    addresses = db.relationship('Addresses', backref='user_detail')
+    addresses = db.relationship('Addresses', backref='user', lazy=True)
+    social_medias = db.relationship('SocialMedia', backref='user', lazy=True)
     # job_history = db.relationship('FoodHistory', backref='user_detail')
 
     def __serialize__(self, id=None):

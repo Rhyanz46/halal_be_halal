@@ -6,6 +6,7 @@ class UserModule:
         from apps.user.models import UserDetail
         from apps.user.models import User
         from apps.user.models.addresses import Addresses
+        from apps.user.models.social_media import SocialMedia
 
     @staticmethod
     def init_app(app):
