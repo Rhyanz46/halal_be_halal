@@ -15,8 +15,41 @@ class Order(db.Model):
     paid = db.Column(db.Boolean, default=False)
     state = db.Column(db.String(30), default="In Progress")
 
+    driver_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
     foods = db.relationship('Food', secondary=food_orders, lazy='subquery', backref='order')
     created_timestamp = db.Column(db.DateTime, default=datetime.now())
+
+    def get(self):
+        foods = []
+        for food in self.foods:
+            foods.append({
+              "item": "{food object}",
+              "count": 2,
+              "note": "note for item"
+            })
+        data = {
+          "id": self.id,
+          "orders": [
+            {
+              "item": "{food object}",
+              "count": 2,
+              "note": "note for item"
+            },
+            {}
+          ],
+          "payment": self.payment_method,
+          "total": self.total,
+          "paid": self.paid,
+          "state": self.state,
+          "driver": {
+            "id": self.driver.id,
+            "name": self.driver.user_detail.fullname,
+            "image": self.driver.user_detail.image,
+            "phone": self.driver.user_detail.phone_number,
+            "rating": self.driver.ratting
+          }
+        }
+        return data
     #
     # data = {
     #     "id": "12345asd312",

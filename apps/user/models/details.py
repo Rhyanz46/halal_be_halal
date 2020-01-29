@@ -6,6 +6,7 @@ class UserDetail(db.Model):
     __tablename__ = 'user_detail'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    driver_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
     fullname = db.Column(db.String(90))
     phone_number = db.Column(db.BigInteger, unique=True)
     work_start_time = db.Column(db.Date, default=datetime.now())
