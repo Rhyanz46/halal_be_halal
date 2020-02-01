@@ -1,7 +1,10 @@
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from ..models import User, UserDetail
+from apps.user.models.addresses import Addresses
+from apps.user.models.social_media import SocialMedia
+from apps.user.models import User, UserDetail
 # from apps.category_access.models import CategoryAccess
 from datetime import timedelta
+import re
 
 from .list import user_list
 
@@ -58,6 +61,12 @@ def store_data_user(data):
 
 
 def register(data):
+    regex = r'\b[\w.-]+?@\w+?\.\w+?\b'
+    p = re.compile(regex)
+    valid_email = p.match(data['email'])
+    # re.findall(regex, data['email'])
+    if not valid_email:
+        return {"message": "email not valid"}, 400
     username_exist = User.query.filter_by(username=data['username']).first()
     email_exist = User.query.filter_by(email=data['email']).first()
     phone_exist = UserDetail.query.filter_by(phone_number=data['phone_number']).first()
@@ -146,12 +155,14 @@ def update(username, data):
 
 
 @jwt_required
-def show_user_detail(username=None):
+def show_user_detail(username):
     user = User.query.filter_by(id=get_jwt_identity()).first()
     if not user:
         return {"message": "user authentication is wrong"}, 400
 
     if not isinstance(None, type(username)):
+        if type(username) != str:
+            return {"message": "param must be string"}
         user_target = User.query.filter_by(username=username).first()
     else:
         user_target = user
@@ -198,3 +209,81 @@ def delete_user(username):
     except:
         return {'error': 'kesalahan saat menghapus, tanyakan masalah ini ke backend'}, 500
     return {'message': 'berhasil menghapus {}'.format(username)}
+
+
+@jwt_required
+def get_my_address():
+    user = User.query.filter_by(id=get_jwt_identity()).first()
+    if not user:
+        return {"message": "user authentication is wrong"}, 400
+    addresses = []
+    for address in user.user_detail.addresses:
+        addresses.append({
+          "name": address.name,
+          "latitude": address.latitude,
+          "longitude": address.longitude,
+          "address": address.address,
+          "note": address.note
+        })
+    if len(addresses) == 0:
+        return {}, 204
+    return {"message": "success", "data": addresses}
+
+
+@jwt_required
+def post_my_address(data):
+    user = User.query.filter_by(id=get_jwt_identity()).first()
+    if not user:
+        return {"message": "user authentication is wrong"}, 400
+    address = Addresses(
+        name=data['name'],
+        latitude=data['latitude'],
+        longitude=data['longitude'],
+        address=data['address'],
+    )
+    if len(user.user_detail.addresses) >= 10:
+        return {"message": "max address 10"}, 400
+    user.user_detail.addresses.append(address)
+    try:
+        user.commit()
+    except:
+        return {"message": "error"}, 500
+    return {"message": "success"}
+
+
+@jwt_required
+def get_my_social_media():
+    user = User.query.filter_by(id=get_jwt_identity()).first()
+    if not user:
+        return {"message": "user authentication is wrong"}, 400
+    social_medias = []
+    for social_media in user.user_detail.social_medias:
+        social_medias.append({
+          "provider": social_media.provider,
+          "id": social_media.uid,
+          "image": social_media.image
+        })
+    if len(social_medias) == 0:
+        return {}, 204
+    return {"message": "success", "data": social_medias}
+
+
+@jwt_required
+def post_my_social_media(data):
+    user = User.query.filter_by(id=get_jwt_identity()).first()
+    if not user:
+        return {"message": "user authentication is wrong"}, 400
+    social_media = SocialMedia(
+        uid=data['uid'],
+        image=data['image'],
+        provider=data['provider'],
+        link=data['link']
+    )
+    if len(user.user_detail.addresses) >= 10:
+        return {"message": "max 10 social media"}, 400
+    user.user_detail.social_medias.append(social_media)
+    try:
+        user.commit()
+    except:
+        return {"message": "error"}, 500
+    return {"message": "success"}

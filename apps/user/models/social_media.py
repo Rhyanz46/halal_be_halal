@@ -7,7 +7,6 @@ class SocialMedia(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uid = db.Column(db.TEXT)
     image = db.Column(db.TEXT)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     provider = db.Column(db.String(90))
     link = db.Column(db.TEXT)
     user_id = db.Column(db.Integer, db.ForeignKey('user_detail.id'))

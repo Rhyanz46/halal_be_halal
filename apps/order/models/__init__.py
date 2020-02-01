@@ -2,8 +2,8 @@ from core.database import db
 from datetime import datetime
 
 
-food_orders = db.Table('food_orders',
-                       db.Column('food_id', db.Integer, db.ForeignKey('food.id'), primary_key=True),
+cart_orders = db.Table('cart_orders',
+                       db.Column('cart_id', db.Integer, db.ForeignKey('cart.id'), primary_key=True),
                        db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True))
 
 
@@ -16,27 +16,20 @@ class Order(db.Model):
     state = db.Column(db.String(30), default="In Progress")
 
     driver_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
-    foods = db.relationship('Food', secondary=food_orders, lazy='subquery', backref='order')
+    carts = db.relationship('Cart', secondary=cart_orders, lazy='subquery', backref='order')
     created_timestamp = db.Column(db.DateTime, default=datetime.now())
 
     def get(self):
-        foods = []
-        for food in self.foods:
-            foods.append({
+        carts = []
+        for cart in self.carts:
+            cart.append({
               "item": "{food object}",
               "count": 2,
               "note": "note for item"
             })
         data = {
           "id": self.id,
-          "orders": [
-            {
-              "item": "{food object}",
-              "count": 2,
-              "note": "note for item"
-            },
-            {}
-          ],
+          "orders": carts,
           "payment": self.payment_method,
           "total": self.total,
           "paid": self.paid,

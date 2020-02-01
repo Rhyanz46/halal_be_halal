@@ -23,7 +23,7 @@ def user_list(page):
     except:
         return {"message": "page param must be integer"}, 400
 
-    users = User.query.paginate(page=page, per_page=30)
+    users = User.query.paginate(page=page, per_page=20)
 
     if not users.total:
         return {"message": "belum ada pekerja, kamu bisa mendaftarkan pekerja baru"}
@@ -31,7 +31,7 @@ def user_list(page):
     result = []
     for user in users.items:
         # ca_ = CategoryAccess.query.filter_by(id=user.category_access_id).first()
-        data = user.__serialize__(True)
+        data = user.__serialize__()
         # data.update({"category_access_name": ca_.name})
         result.append(data)
 

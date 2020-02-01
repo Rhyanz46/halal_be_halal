@@ -47,8 +47,8 @@ class User(db.Model):
         else:
             data = {
                 "id": self.id,
-                # "category_access_id": self.category_access_id,
                 "username": self.username,
-                "email": self.email
+                "email": self.email,
+                "driver_id": self.user_detail.driver_id
             }
         return data

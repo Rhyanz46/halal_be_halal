@@ -6,6 +6,7 @@ class OrderModule:
         from apps.order.models import Order
         from apps.order.models.currency import Currency
         from apps.order.models.payment import PaymentMethod
+        from apps.order.models.cart import Cart
 
     @staticmethod
     def init_app(app):

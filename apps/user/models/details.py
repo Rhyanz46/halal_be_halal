@@ -9,7 +9,7 @@ class UserDetail(db.Model):
     driver_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
     fullname = db.Column(db.String(90))
     phone_number = db.Column(db.BigInteger, unique=True)
-    work_start_time = db.Column(db.Date, default=datetime.now())
+    # work_start_time = db.Column(db.DateTime, default=datetime.now())
     activate = db.Column(db.Boolean, default=True)
     ratting = db.Column(db.BigInteger)
     image = db.Column(db.Text)
