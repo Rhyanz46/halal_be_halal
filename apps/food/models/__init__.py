@@ -16,6 +16,10 @@ food_themes = db.Table('food_themes',
                       db.Column('food_id', db.Integer, db.ForeignKey('food.id'), primary_key=True),
                       db.Column('food_theme_id', db.Integer, db.ForeignKey('food_theme.id'), primary_key=True))
 
+food_carts = db.Table('food_carts',
+                      db.Column('food_id', db.Integer, db.ForeignKey('food.id'), primary_key=True),
+                      db.Column('cart_id', db.Integer, db.ForeignKey('cart.id'), primary_key=True))
+
 
 class Food(db.Model):
     __tablename__ = 'food'
@@ -34,13 +38,14 @@ class Food(db.Model):
     popularity = db.Column(db.BigInteger, default=0)
     ratting = db.Column(db.BigInteger, default=0)
 
-    cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'))
+    # cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'))
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'))
     category_id = db.Column(db.Integer, db.ForeignKey("food_category.id"))
     certificate_id = db.Column(db.Integer, db.ForeignKey("certificate.id"))
     currency_id = db.Column(db.Integer, db.ForeignKey("currency.id"))
 
     buyers = db.relationship('User', secondary=user_foods, lazy='subquery', backref='food_be_bought')
+    carts = db.relationship('Cart', secondary=food_carts, lazy='subquery', backref='foods')
     tags = db.relationship('FoodTag', secondary=food_tags, lazy='subquery', backref='foods')
     themes = db.relationship('FoodTheme', secondary=food_themes, lazy='subquery', backref='foods')
     feed_backs = db.relationship('FoodFeedBack', backref='food', lazy=True)
@@ -92,7 +97,7 @@ class Food(db.Model):
             "seller": {
                 "id": self.store.id,
                 "name": self.store.name,
-                "image": self.store.img,
+                "image": self.store.img
                 # "address": self.store.address,
             },
             "attribute": {
