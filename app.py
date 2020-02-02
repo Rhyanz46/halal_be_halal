@@ -19,7 +19,6 @@ def create_app(test_config=None):
     from apps.food import FoodModule
     from apps.store import StoreModule
     from apps.order import OrderModule
-    from apps.package import PackageModule
     from apps.driver import DriverModule
     # from apps.category_access import CategoryAccessModule
 
@@ -32,7 +31,6 @@ def create_app(test_config=None):
     food = FoodModule()
     store = StoreModule()
     order = OrderModule()
-    package = PackageModule()
     driver = DriverModule()
     # category_access = CategoryAccessModule()
 
@@ -46,7 +44,6 @@ def create_app(test_config=None):
     food.init_app(app)
     store.init_app(app)
     order.init_app(app)
-    package.init_app(app)
     driver.init_app(app)
     # category_access.init_app(app)
 

@@ -38,7 +38,6 @@ class Food(db.Model):
     popularity = db.Column(db.BigInteger, default=0)
     ratting = db.Column(db.BigInteger, default=0)
 
-    # cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'))
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'))
     category_id = db.Column(db.Integer, db.ForeignKey("food_category.id"))
     certificate_id = db.Column(db.Integer, db.ForeignKey("certificate.id"))
