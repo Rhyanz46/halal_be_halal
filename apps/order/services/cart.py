@@ -5,27 +5,15 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 @jwt_required
-def post_order(data):
-    note = data['note']
-    order_time = data['order_time']
-    items = data['items']
-    deliver_to = data['deliver_to']
-    order_loc = data['order_loc']
-
-    if not isinstance(type(items), list):
-        return {"message": "items must be array"}
-    if not isinstance(type(deliver_to), dict):
-        return {"message": "deliver_to must be object"}
-    if not isinstance(type(order_loc), dict):
-        return {"message": "order_loc must be object"}
-
+def post_cart(data):
     user = User.query.filter_by(id=get_jwt_identity()).first()
+    if not data['amount']:
+        data['amount'] = 1
     if not user:
         return {"message": "user authentication is wrong"}, 400
     if not user.user_detail.cart:
         user.user_detail.cart = Cart()
         user.commit()
-
     food = Food.query.get(data['food_id'])
     if not food:
         return {"message": "food is not found"}, 400

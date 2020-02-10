@@ -1,12 +1,14 @@
-from flask import Blueprint, request
-from core import method_is, parser
+from flask import request
+from flask.views import MethodView
+from core import parser
 
-bp = Blueprint('payment', __name__, url_prefix='/payment')
+from apps.order.services.cart import post_cart
 
 
-@bp.route('', methods=['POST', 'GET'])
-def payment():
-    if method_is('POST'):
+class Cart(MethodView):
+    @staticmethod
+    def post():
         data = parser.ValueChecker(request.json)
-        data.parse('name', field_type=str, length=50)
-        # return set_ca(data.get_parsed())
+        data.parse("food_id", int, length=11)
+        data.parse('amount', int, nullable=True, length=11)
+        return post_cart(data.get_parsed())

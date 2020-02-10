@@ -1,4 +1,7 @@
-from apps.order.interface import bp
+from flask import Blueprint
+from apps.order.interface import (
+    Cart
+)
 
 
 class OrderModule:
@@ -6,9 +9,11 @@ class OrderModule:
         from apps.order.models import Order
         from apps.order.models.currency import Currency
         from apps.order.models.payment import PaymentMethod
-        from apps.order.models.cart import Cart
+        from apps.order.models.cart import Cart, CartItem
         from apps.order.models.package import Package
 
     @staticmethod
     def init_app(app):
+        bp = Blueprint('order', __name__, url_prefix='/order')
+        bp.add_url_rule('cart', '/cart', Cart.as_view('cart'))
         app.register_blueprint(bp)

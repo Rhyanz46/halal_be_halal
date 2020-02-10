@@ -1,0 +1,12 @@
+/package
+food_id :
+amount :
+
+/cart [post/get]
+food_id :
+amount :
+
+/order [post] = menambahkan
+type : cart/package/item
+amount :
+
