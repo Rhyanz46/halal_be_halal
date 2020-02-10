@@ -1,6 +1,6 @@
 from flask import Blueprint
 from apps.order.interface import (
-    Cart
+    Order
 )
 
 
@@ -15,5 +15,5 @@ class OrderModule:
     @staticmethod
     def init_app(app):
         bp = Blueprint('order', __name__, url_prefix='/order')
-        bp.add_url_rule('cart', '/cart', Cart.as_view('cart'))
+        bp.add_url_rule('', '/', Order.as_view(''))
         app.register_blueprint(bp)

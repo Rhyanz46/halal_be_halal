@@ -7,10 +7,12 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 @jwt_required
 def post_cart(data):
     user = User.query.filter_by(id=get_jwt_identity()).first()
-    if not data['amount']:
-        data['amount'] = 1
     if not user:
         return {"message": "user authentication is wrong"}, 400
+
+    if not data['amount']:
+        data['amount'] = 1
+
     if not user.user_detail.cart:
         user.user_detail.cart = Cart()
         user.commit()

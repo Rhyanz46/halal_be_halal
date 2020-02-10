@@ -4,36 +4,43 @@ from apps.food.models import Food
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-@jwt_required
+# @jwt_required
 def post_order(data):
-    note = data['note']
+    user_id = data["user_id"]
+    notes = data['notes']
     order_time = data['order_time']
     items = data['items']
     deliver_to = data['deliver_to']
     order_loc = data['order_loc']
 
-    if not isinstance(type(items), list):
-        return {"message": "items must be array"}
-    if not isinstance(type(deliver_to), dict):
-        return {"message": "deliver_to must be object"}
-    if not isinstance(type(order_loc), dict):
-        return {"message": "order_loc must be object"}
+    food_items = []
 
-    user = User.query.filter_by(id=get_jwt_identity()).first()
+    user = User.query.filter_by(id=user_id).first()
     if not user:
-        return {"message": "user authentication is wrong"}, 400
-    if not user.user_detail.cart:
-        user.user_detail.cart = Cart()
-        user.commit()
+        return {"message": "user id is not found"}, 400
 
-    food = Food.query.get(data['food_id'])
-    if not food:
-        return {"message": "food is not found"}, 400
-    cart_item = CartItem(
-        amount=data['amount']
-    )
-    cart_item.foods.append(food)
-    cart_item.commit()
-    user.user_detail.cart.cart_items.append(cart_item)
-    user.commit()
+    for item in items:
+        if "id" and "qty" not in item.keys():
+            return {"message": "item must have id and qty"}, 400
+        if not isinstance(int, type(item["id"])):
+            return {"message": "id of item should be not null"}, 400
+        if isinstance(int, type(item["qty"])):
+            return {"message": "qty of item should be not null"}, 400
+        food = Food.query.get(item["id"])
+        if not food:
+            return {"message": "food id={} is not found".format(item["id"])}, 400
+        if food.stock < item["qty"]:
+            return {"message": "stock not enough for {}, avalaible {} ".format(food.name, food.stock)}, 400
+        item = CartItem(
+            qty=item["qty"],
+            food_id=item["id"]
+        )
+        food_items.append(item)
+    cart = Cart()
+    cart.cart_items = food_items
+    user.user_detail.cart.append(cart)
+    try:
+        user.commit()
+    except:
+        return {"message": "can't save, tell you engineer"}, 500
     return {"data": "hello"}

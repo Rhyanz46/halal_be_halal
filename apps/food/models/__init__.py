@@ -47,6 +47,7 @@ class Food(db.Model):
     carts = db.relationship('Cart', secondary=food_carts, lazy='subquery', backref='foods')
     tags = db.relationship('FoodTag', secondary=food_tags, lazy='subquery', backref='foods')
     themes = db.relationship('FoodTheme', secondary=food_themes, lazy='subquery', backref='foods')
+    cart_items = db.relationship('CartItem', backref='food', lazy=True)
     feed_backs = db.relationship('FoodFeedBack', backref='food', lazy=True)
     history = db.relationship('FoodHistory', backref='food')
 

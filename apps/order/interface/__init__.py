@@ -2,13 +2,17 @@ from flask import request
 from flask.views import MethodView
 from core import parser
 
-from apps.order.services.cart import post_cart
+from apps.order.services import post_order
 
 
-class Cart(MethodView):
+class Order(MethodView):
     @staticmethod
     def post():
         data = parser.ValueChecker(request.json)
-        data.parse("food_id", int, length=11)
-        data.parse('amount', int, nullable=True, length=11)
-        return post_cart(data.get_parsed())
+        data.parse("user_id", int, length=11)
+        data.parse("order_time", str, length=11)
+        data.parse("order_loc", dict)
+        data.parse("deliver_to", dict)
+        data.parse("notes", str, length=100)
+        data.parse("items", list)
+        return post_order(data.get_parsed())
