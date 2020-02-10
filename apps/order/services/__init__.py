@@ -19,6 +19,9 @@ def post_order(data):
     if not user:
         return {"message": "user id is not found"}, 400
 
+    if not items:
+        return {"message": "items must be not null"}, 400
+
     for item in items:
         if "id" and "qty" not in item.keys():
             return {"message": "item must have id and qty"}, 400
@@ -36,6 +39,7 @@ def post_order(data):
             food_id=item["id"]
         )
         food_items.append(item)
+
     cart = Cart()
     cart.cart_items = food_items
     user.user_detail.cart.append(cart)
