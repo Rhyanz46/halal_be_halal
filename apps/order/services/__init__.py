@@ -1,7 +1,7 @@
 from apps.order.models.cart import Cart, CartItem
 from apps.user.models import User, UserDetail
 from apps.food.models import Food
-from apps.order.models import Order
+from apps.order.models import Order, OrderLocationTracked
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
@@ -41,9 +41,25 @@ def post_order(data):
         )
         food_items.append(item)
 
+    order_loc = OrderLocationTracked(
+
+    )
+
+    deliver_to = OrderLocationTracked(
+
+    )
+
     cart = Cart()
-    cart.cart_items = food_items
-    user.user_detail.cart.append(cart)
+    order = Order(
+        user_id=user_id,
+        order_time=order_time,
+        order_loc=order_loc,
+        deliver_to=deliver_to,
+        notes=notes
+    )
+    order.cart = cart
+    order.cart.cart_items = food_items
+    user.user_detail.orders.append(order)
     try:
         user.commit()
     except:
