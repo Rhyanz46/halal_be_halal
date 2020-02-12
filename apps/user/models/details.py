@@ -15,7 +15,7 @@ class UserDetail(db.Model):
     image = db.Column(db.Text)
     created_time = db.Column(db.DateTime, default=datetime.now())
 
-    cart = db.relationship('Cart', backref='user_detail')
+    orders = db.relationship('Order', backref='user_detail')
     addresses = db.relationship('Addresses', backref='user', lazy=True)
     social_medias = db.relationship('SocialMedia', backref='user', lazy=True)
     # job_history = db.relationship('FoodHistory', backref='user_detail')

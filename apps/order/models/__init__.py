@@ -2,11 +2,6 @@ from core.database import db
 from datetime import datetime
 
 
-cart_orders = db.Table('cart_orders',
-                       db.Column('cart_id', db.Integer, db.ForeignKey('cart.id'), primary_key=True),
-                       db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True))
-
-
 class Order(db.Model):
     __tablename__: str = 'order'
     id = db.Column(db.Integer, primary_key=True)
@@ -14,9 +9,14 @@ class Order(db.Model):
     total = db.Column(db.Float, default=0.0)
     paid = db.Column(db.Boolean, default=False)
     state = db.Column(db.String(30), default="In Progress")
+    notes = db.Column(db.Text)
+    user_detail_id = db.Column(db.Integer, db.ForeignKey('user_detail.id'))
 
     driver_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
-    carts = db.relationship('Cart', secondary=cart_orders, lazy='subquery', backref='order')
+    order_time = db.Column(db.DateTime, default=datetime.now())
+    cart = db.relationship('Cart', uselist=False, backref='order')
+    order_loc = db.relationship('OrderLocationTracked', uselist=False, backref='order_loc')
+    deliver_to = db.relationship('OrderLocationTracked', uselist=False, backref='deliver_to')
     created_timestamp = db.Column(db.DateTime, default=datetime.now())
 
     def get(self):
@@ -43,26 +43,15 @@ class Order(db.Model):
           }
         }
         return data
-    #
-    # data = {
-    #     "id": "12345asd312",
-    #     "orders": [
-    #         {
-    #             "item": "{food object}",
-    #             "count": 2,
-    #             "note": "note for item"
-    #         },
-    #         {}
-    #     ],
-    #     "payment": "COD",
-    #     "total": 124566,
-    #     "paid": False,
-    #     "state": "In progress",
-    #     "driver": {
-    #         "id": 12345,
-    #         "name": "abdul",
-    #         "image": "http:///dadasdasd.jpg",
-    #         "phone": "097983478238",
-    #         "rating": 8
-    #     }
-    # }
+
+
+class OrderLocationTracked(db.Model):
+    __tablename__: str = 'order_location_tracked'
+    id = db.Column(db.Integer, primary_key=True)
+    latitude = db.Column(db.Float, default=0.0)
+    longitude = db.Column(db.Float, default=0.0)
+    accuracy = db.Column(db.Float, default=0.0)
+    is_pinned = db.Column(db.Boolean, default=False)
+
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    created_timestamp = db.Column(db.DateTime, default=datetime.now())

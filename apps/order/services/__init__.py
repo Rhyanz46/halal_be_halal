@@ -1,6 +1,7 @@
 from apps.order.models.cart import Cart, CartItem
 from apps.user.models import User, UserDetail
 from apps.food.models import Food
+from apps.order.models import Order
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 from core.database import db
 
-from .details import UserDetail
+from apps.user.models.details import UserDetail
 
 
 class User(db.Model):

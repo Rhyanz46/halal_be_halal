@@ -3,9 +3,10 @@ from core.database import db
 
 
 class Cart(db.Model):
+    # relationship with order
     __tablename__: str = 'cart'
     id = db.Column(db.Integer, primary_key=True)
-    user_detail_id = db.Column(db.Integer, db.ForeignKey('user_detail.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     cart_items = db.relationship('CartItem', backref='cart', lazy=True)
     created_timestamp = db.Column(db.DateTime, default=datetime.now())
 
@@ -19,3 +20,7 @@ class CartItem(db.Model):
     food_id = db.Column(db.Integer, db.ForeignKey('food.id'))
     packages = db.relationship('Package', backref='cart', lazy=True)
     created_timestamp = db.Column(db.DateTime, default=datetime.now())
+
+
+# user -> order -> cart
+# user -> cart -> order
