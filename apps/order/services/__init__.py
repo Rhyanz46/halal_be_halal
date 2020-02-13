@@ -1,5 +1,5 @@
 from apps.order.models.cart import Cart, CartItem
-from apps.user.models import User, UserDetail
+from apps.user.models import User
 from apps.food.models import Food
 from apps.order.models import Order, OrderLocationTracked
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -16,6 +16,10 @@ def post_order(data):
 
     food_items = []
 
+    print(order_loc.keys())
+    print("latitude, longitude, accuracy")
+    print("latitude" and "longitude" and "accuracy" not in order_loc.keys())
+
     user = User.query.filter_by(id=user_id).first()
     if not user:
         return {"message": "user id is not found"}, 400
@@ -23,13 +27,23 @@ def post_order(data):
     if not items:
         return {"message": "items must be not null"}, 400
 
+    if list(order_loc.keys()) != ['latitude', 'longitude', 'accuracy']:
+        return {"message": "order_loc object is not valid key"}, 400
+
+    # pengecekan tipe data di setiap value dari key order_loc
+
+    if list(deliver_to.keys()) != ['latitude', 'longitude', 'accuracy', 'is_pinned']:
+        return {"message": "deliver_to object is not valid key"}, 400
+
+    # pengecekan tipe data di setiap value dari key deliver_to
+
     for item in items:
         if "id" and "qty" not in item.keys():
             return {"message": "item must have id and qty"}, 400
-        if not isinstance(int, type(item["id"])):
-            return {"message": "id of item should be not null"}, 400
-        if isinstance(int, type(item["qty"])):
-            return {"message": "qty of item should be not null"}, 400
+        if int != type(item["id"]):
+            return {"message": "id of item should be integer"}, 400
+        if int != type(item["qty"]):
+            return {"message": "qty of item should be integer"}, 400
         food = Food.query.get(item["id"])
         if not food:
             return {"message": "food id={} is not found".format(item["id"])}, 400
