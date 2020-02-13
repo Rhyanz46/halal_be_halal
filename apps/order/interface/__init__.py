@@ -19,4 +19,7 @@ class Order(MethodView):
 
     @staticmethod
     def get():
-        return my_order_list()
+        page = request.args.get('page')
+        if not page:
+            page = 1
+        return my_order_list(page, per_page=10)

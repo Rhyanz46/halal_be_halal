@@ -1,5 +1,5 @@
 from apps.order.models.cart import Cart, CartItem
-from apps.user.models import User
+from apps.user.models import User, UserDetail
 from apps.food.models import Food
 from apps.order.models import Order, OrderLocationTracked
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -98,9 +98,14 @@ def post_order(data):
 
 
 @jwt_required
-def my_order_list():
+def my_order_list(page, per_page):
     user = User.query.filter_by(id=get_jwt_identity()).first()
     if not user:
         return {"message": "user id is not found"}, 400
-    order = Order.query.join()
-    return
+    order = Order.query.join(UserDetail).filter(
+        UserDetail.id == user.user_detail.id
+    ).paginate(page=page, per_page=per_page)
+    orders = []
+    for item in order.items:
+        orders.append(item.get())
+    return {"data": orders}
