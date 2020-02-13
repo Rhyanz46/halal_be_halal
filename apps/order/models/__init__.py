@@ -21,27 +21,30 @@ class Order(db.Model):
 
     def get(self):
         carts = []
-        for cart in self.carts:
-            cart.append({
-              "item": "{food object}",
-              "count": 2,
-              "note": "note for item"
+        for cart in self.cart.cart_items:
+            carts.append({
+              "item": cart.food.name,
+              "count": cart.qty,
+              "note": cart.note
             })
         data = {
           "id": self.id,
           "orders": carts,
-          "payment": self.payment_method,
+          "payment": self.payment_method_id,
           "total": self.total,
           "paid": self.paid,
           "state": self.state,
-          "driver": {
-            "id": self.driver.id,
-            "name": self.driver.user_detail.fullname,
-            "image": self.driver.user_detail.image,
-            "phone": self.driver.user_detail.phone_number,
-            "rating": self.driver.ratting
-          }
+          "driver": "belum ada driver"
         }
+        if self.driver:
+            drv = {
+                "id": self.driver,
+                "name": self.driver.user_detail.fullname,
+                "image": self.driver.user_detail.image,
+                "phone": self.driver.user_detail.phone_number,
+                "rating": self.driver.ratting
+            }
+            data.update({"driver": drv})
         return data
 
 

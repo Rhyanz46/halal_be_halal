@@ -15,5 +15,5 @@ class OrderModule:
     @staticmethod
     def init_app(app):
         bp = Blueprint('order', __name__, url_prefix='/order')
-        bp.add_url_rule('', '/', Order.as_view(''))
+        bp.add_url_rule('', view_func=Order.as_view(''))
         app.register_blueprint(bp)

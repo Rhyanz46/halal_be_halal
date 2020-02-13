@@ -5,7 +5,7 @@ from apps.order.models import Order, OrderLocationTracked
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-# @jwt_required
+@jwt_required
 def post_order(data):
     user_id = data["user_id"]
     notes = data['notes']
@@ -26,12 +26,29 @@ def post_order(data):
     if list(order_loc.keys()) != ['latitude', 'longitude', 'accuracy']:
         return {"message": "order_loc object is not valid key"}, 400
 
-    # pengecekan tipe data di setiap value dari key order_loc
+    if type(order_loc['latitude']) != float and type(order_loc['latitude']) != int:
+        return {"message": "latitude of order_loc object is not valid type"}, 400
+
+    if type(order_loc['longitude']) != float and type(order_loc['longitude']) != int:
+        return {"message": "longitude of order_loc object is not valid type"}, 400
+
+    if type(order_loc['accuracy']) != float and type(order_loc['accuracy']) != int:
+        return {"message": "accuracy of order_loc object is not valid type"}, 400
 
     if list(deliver_to.keys()) != ['latitude', 'longitude', 'accuracy', 'is_pinned']:
         return {"message": "deliver_to object is not valid key"}, 400
 
-    # pengecekan tipe data di setiap value dari key deliver_to
+    if type(deliver_to['latitude']) != float and type(deliver_to['latitude']) != int:
+        return {"message": "latitude of deliver_to object is not valid type"}, 400
+
+    if type(deliver_to['longitude']) != float and type(deliver_to['longitude']) != int:
+        return {"message": "longitude of deliver_to object is not valid type"}, 400
+
+    if type(deliver_to['accuracy']) != float and type(deliver_to['accuracy']) != int:
+        return {"message": "accuracy of deliver_to object is not valid type"}, 400
+
+    if type(deliver_to['is_pinned']) != bool:
+        return {"message": "is_pinned of deliver_to object is not valid type"}, 400
 
     for item in items:
         if "id" and "qty" not in item.keys():
@@ -52,26 +69,38 @@ def post_order(data):
         food_items.append(item)
 
     order_loc = OrderLocationTracked(
-
+        latitude=order_loc['latitude'],
+        longitude=order_loc['longitude'],
+        accuracy=order_loc['accuracy']
     )
 
     deliver_to = OrderLocationTracked(
-
+        latitude=deliver_to['latitude'],
+        longitude=deliver_to['longitude'],
+        accuracy=deliver_to['accuracy'],
+        is_pinned=deliver_to['is_pinned']
     )
 
-    cart = Cart()
     order = Order(
-        user_id=user_id,
         order_time=order_time,
         order_loc=order_loc,
         deliver_to=deliver_to,
-        notes=notes
+        notes=notes,
+        cart=Cart()
     )
-    order.cart = cart
     order.cart.cart_items = food_items
     user.user_detail.orders.append(order)
     try:
         user.commit()
     except:
         return {"message": "can't save, tell you engineer"}, 500
-    return {"data": "hello"}
+    return {"message": "success", "data": order.get()}
+
+
+@jwt_required
+def my_order_list():
+    user = User.query.filter_by(id=get_jwt_identity()).first()
+    if not user:
+        return {"message": "user id is not found"}, 400
+    order = Order.query.join()
+    return
