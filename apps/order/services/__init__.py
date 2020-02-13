@@ -16,10 +16,6 @@ def post_order(data):
 
     food_items = []
 
-    print(order_loc.keys())
-    print("latitude, longitude, accuracy")
-    print("latitude" and "longitude" and "accuracy" not in order_loc.keys())
-
     user = User.query.filter_by(id=user_id).first()
     if not user:
         return {"message": "user id is not found"}, 400
