@@ -22,4 +22,8 @@ class Order(MethodView):
         page = request.args.get('page')
         if not page:
             page = 1
+        try:
+            page = int(page)
+        except:
+            return {"error": "parameter page must be integer"}, 400
         return my_order_list(page, per_page=10)

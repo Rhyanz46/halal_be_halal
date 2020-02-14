@@ -1,3 +1,5 @@
+from flask import request
+
 from apps.order.models.cart import Cart, CartItem
 from apps.user.models import User, UserDetail
 from apps.food.models import Food
@@ -108,4 +110,11 @@ def my_order_list(page, per_page):
     orders = []
     for item in order.items:
         orders.append(item.get())
-    return {"data": orders}
+    meta = {
+        "total_data": order.total,
+        "total_pages": order.pages,
+        "total_data_per_page": order.per_page,
+        "next": "{}?page={}".format(request.url_rule, order.next_num) if order.has_next else None,
+        "prev": "{}?page={}".format(request.url_rule, order.prev_num) if order.has_prev else None
+    }
+    return {"meta": meta, "data": orders}
