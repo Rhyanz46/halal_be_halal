@@ -96,7 +96,7 @@ def post_order(data):
         user.commit()
     except:
         return {"message": "can't save, tell you engineer"}, 500
-    return {"message": "success", "data": order.get()}
+    return {"message": "success", "data": order.get(detail=True)}
 
 
 @jwt_required

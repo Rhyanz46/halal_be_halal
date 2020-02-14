@@ -19,14 +19,22 @@ class Order(db.Model):
     deliver_to = db.relationship('OrderLocationTracked', uselist=False, backref='deliver_to')
     created_timestamp = db.Column(db.DateTime, default=datetime.now())
 
-    def get(self):
+    def get(self, detail=False):
         carts = []
-        for cart in self.cart.cart_items:
-            carts.append({
-              "item": cart.food.name,
-              "count": cart.qty,
-              "note": cart.note
-            })
+        if detail:
+            for cart in self.cart.cart_items:
+                carts.append({
+                    "item": cart.food.__serialize__(with_img=True),
+                    "count": cart.qty,
+                    "note": cart.note
+                })
+        else:
+            for cart in self.cart.cart_items:
+                carts.append({
+                    "item": cart.food.name,
+                    "count": cart.qty,
+                    "note": cart.note
+                })
         data = {
           "id": self.id,
           "orders": carts,
