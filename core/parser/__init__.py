@@ -9,20 +9,32 @@ class ValueChecker:
         self.type = type(data_request)
         self.__parsed = {}
 
-    def parse(self, field, field_type, nullable=False, length=float("inf"), enum=None):
+    def parse(self, field, field_type, nullable=False, length=float("inf"), enum=None, unique_from_model=None):
         is_dict = self.type == dict
 
         data_request = self.data_request
         if isinstance(None, self.type):
             if not nullable:
                 msg = {
-                    "message": 'you have to set a body data'
+                    "message": 'you have to set a data'
                 }
                 abort(result(msg, 400))
             return self.__parsed.update({field: None})
 
         if enum != None and type(enum) != list:
             raise ValueError("enum must be list, for '{}' field".format(field))
+
+        if unique_from_model != None:
+            must_field = {'model', 'field'}
+            if type(unique_from_model) != dict:
+                raise ValueError("unique_from_model must be dict, for '{}' field".format(field))
+            if must_field != set(unique_from_model.keys()):
+                raise ValueError("key must be {} for '{}' field".format(must_field, field))
+            if len(unique_from_model.keys()) != 2:
+                raise ValueError(
+                    "expected {} keys, and we got {} keys, for '{}' field"
+                    .format(len(must_field), len(unique_from_model.keys()), field)
+                )
 
         if is_dict:
             value = data_request.get(field)
@@ -32,6 +44,18 @@ class ValueChecker:
                         "message": 'value error for field {}'.format(field)
                     }
                     abort(result(msg, 400))
+
+            if unique_from_model:
+                model = unique_from_model['model']
+                model_field = unique_from_model['field']
+                if hasattr(model, model_field):
+                    obj_model = getattr(getattr(model, 'query'), 'filter')(getattr(model, model_field) == value).first()
+                    if obj_model:
+                        msg = {
+                            "message": '{} with {}={} is already exist'.format(model.__tablename__, model_field, value)
+                        }
+                        abort(result(msg, 400))
+
             if not nullable:
                 if isinstance(None, type(value)):
                     msg = {
