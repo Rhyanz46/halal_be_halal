@@ -1,4 +1,3 @@
-# liqodemy
 
 `virtualenv -p python3 env`
 <br>
